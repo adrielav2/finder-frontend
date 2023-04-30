@@ -166,31 +166,31 @@ export const SliderContainer = styled.div`
   max-width: 100%;
   min-height: 500px;
 
-  .form-container {
+  &.form-container {
     position: absolute;
     top: 0;
     height: 100%;
     transition: all 0.6s ease-in-out;
   }
 
-  .login-container {
+  &.login-container {
     left: 0;
     width: 50%;
     z-index: 2;
   }
 
-  &.right-panel-active .login-container {
+  &.right-panel-active &.login-container {
     transform: translateX(100%);
   }
 
-  .register-container {
+  &.register-container {
     left: 0;
     width: 50%;
     opacity: 0;
     z-index: 1;
   }
 
-  &.right-panel-active .register-container {
+  &.right-panel-active &.register-container {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
@@ -211,7 +211,7 @@ export const SliderContainer = styled.div`
     }
   }
 
-  .overlay-container {
+  &.overlay-container {
     position: absolute;
     top: 0;
     left: 50%;
@@ -222,11 +222,11 @@ export const SliderContainer = styled.div`
     z-index: 100;
   }
 
-  &.right-panel-active .overlay-container {
+  &.right-panel-active &.overlay-container {
     transform: translate(-100%);
   }
 
-  .overlay {
+  &.overlay {
     background-image: url('image/image.gif');
     background-repeat: no-repeat;
     background-size: cover;
@@ -240,7 +240,7 @@ export const SliderContainer = styled.div`
     transition: transform 0.6s ease-in-out;
   }
 
-  .overlay::before {
+  &.overlay::before {
     content: "";
     position: absolute;
     left: 0;
@@ -258,7 +258,7 @@ export const SliderContainer = styled.div`
     transform: translateX(50%);
   }
 
-  .overlay-panel {
+  &.overlay-panel {
     position: absolute;
     display: flex;
     align-items: center;
@@ -273,7 +273,7 @@ export const SliderContainer = styled.div`
     transition: transform 0.6s ease-in-out;
   }
 
-  .overlay-left {
+  &.overlay-left {
     transform: translateX(-20%);
   }
 
@@ -281,7 +281,7 @@ export const SliderContainer = styled.div`
     transform: translateX(0);
   }
 
-  .overlay-right {
+  &.overlay-right {
     right: 0;
     transform: translateX(0);
   }
@@ -290,7 +290,4 @@ export const SliderContainer = styled.div`
   transform: translateX(20%);
 }
 
-  &.social-container {
-  margin: 20px 0;
-}
 `;
