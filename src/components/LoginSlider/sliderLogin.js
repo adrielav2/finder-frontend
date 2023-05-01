@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from 'react';
 import ReactDOM from "react-dom";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import { GlobalStyle } from "@/styles/globalStyles.js";
+import { login }  from "../apidata/apilogin"
+import { BrowserRouter as Router, Route, Switch, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/router'
 const jump = keyframes`
   from {
     transform: translateY(0);
@@ -97,6 +101,9 @@ const SignUpButton = styled.button`
 `;
 
 function Login() {
+    const router = useRouter()
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [data, setData] = useState(null);
     const [dados, setDados] = useState({
       email: "",
       password: ""
@@ -104,31 +111,43 @@ function Login() {
   
     const handleSubmit = e => {
       e.preventDefault();
-      console.log(dados);
-      // Aquí podrías agregar la lógica para autenticar al usuario
+      login(setData,dados.email,dados.password)
+      
     };
   
     const handleChange = e => {
       const { name, value } = e.target;
       setDados(prevState => ({ ...prevState, [name]: value }));
     };
+
+    useEffect(() => {
+        if (data === true) {
+          setIsLoggedIn(true);
+        }
+      }, [data]);
+    
+      if (isLoggedIn) {
+        router.push('/')
+        return null;
+      }
+
+
+
+
   
-    return (
+      return (
         <>
           <GlobalStyle />
           <Wrapper>
             <Form onSubmit={handleSubmit}>
               <Title>Iniciar sesión</Title>
               <label htmlFor="email">Email</label>
-              {/* El valor del input debe ser 'dados.email' */}
               <Input id="email" type="email" value={dados.email} onChange={handleChange} name="email" />
               <label htmlFor="password">Password</label>
-              {/* El valor del input debe ser 'dados.password' */}
               <Input id="password" type="password" value={dados.password} onChange={handleChange} name="password" />
-              <Button type="submit">Entrar</Button>
+              <Button type="submit">Entrar</Button>  
               <SignUpButton>Crear cuenta</SignUpButton>
             </Form>
-            <SignUpButton>Crear cuenta</SignUpButton>
           </Wrapper>
         </>
       );
