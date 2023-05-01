@@ -5,12 +5,6 @@ import SliderLogin from '../components/LoginSlider/sliderLogin'
 
 export default function Login() {
   return (
-  
-    <div>
-    <GlobalStyle />
-    <SliderLogin/>
-    </div>
-  
-  
+      <SliderLogin/>
     )
 } 

@@ -31,24 +31,6 @@ function SliderLogin() {
                 
             </SliderContainer>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </SliderBody>
         )
 
