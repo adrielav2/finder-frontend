@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from "react-dom";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import { GlobalStyle } from "@/styles/globalStyles.js";
-import { login }  from "../apidata/apilogin"
-import { BrowserRouter as Router, Route, Switch, useNavigate } from 'react-router-dom';
+import { login }  from "../../pages/api/apilogin"
 import Link from 'next/link';
 import { useRouter } from 'next/router'
 const jump = keyframes`
@@ -110,10 +108,11 @@ function Login() {
       password: ""
     });
   
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
       e.preventDefault();
-      login(setData,dados.email,dados.password)
-      
+      const response= await login(dados.email,dados.password);
+      console.log(response);
+      setData(response)
     };
   
     const handleChange = e => {
@@ -122,13 +121,17 @@ function Login() {
     };
 
     useEffect(() => {
-        if (data === true) {
+        if (data && data["Resultado"] != false) {
+          console.log(data["Resultado"])
           setIsLoggedIn(true);
         }
       }, [data]);
+
     
-      if (isLoggedIn) {
-        router.push('/')
+      if (data && isLoggedIn) {
+        console.log(data.userid)
+        let url= `/main?id=${data.userid}`
+        router.push(url)
         return null;
       }
 
