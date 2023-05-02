@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { register }  from "../../pages/api/apiregister"
+import { register } from '../apidata/apiregister';
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import DatePicker from "react-datepicker";
@@ -174,6 +174,7 @@ function RegisterPage() {
   const [resumen, setResumen] = useState('');
   const [contrasena, setContrasena] = useState('');
   const [email, setEmail] = useState('');
+  const [generoid, setGeneroid] = useState(0);
   const router = useRouter();
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
@@ -183,7 +184,7 @@ function RegisterPage() {
     try {
 
         const fechaFormateada = new Date(startDate).toISOString();
-        const response = await register(nombre, apellido1, fechaFormateada, contrasena, email, resumen);
+        const response = await register(nombre, apellido1, fechaFormateada, contrasena, email, resumen,generoid);
       const resultado = response.Resultado;
       if (resultado === 'True') {
         setPopupMessage('Registro exitoso');
@@ -259,7 +260,19 @@ function RegisterPage() {
           onChange={(e) => setResumen(e.target.value)}
           required
         />
-
+        <label htmlFor="generoid">Género</label>
+        <select
+        name="generoid"
+        id="generoid"
+        value={generoid}
+        onChange={(e) => setGeneroid(parseInt(e.target.value))}
+        required
+        >
+        <option value="0">Selecciona tu género</option>
+        <option value="1">Masculino</option>
+        <option value="2">Femenino</option>
+        </select>
+        <br/>
 
 <label htmlFor="birthdate">Fecha de nacimiento:</label>
 <DatePickerWrapper>

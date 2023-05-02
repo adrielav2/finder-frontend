@@ -153,43 +153,5 @@ function Login() {
       );
     }
 
-<<<<<<< Updated upstream
-=======
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setDados((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  return (
-    <>
-      <GlobalStyle />
-      <Wrapper>
-        <Form onSubmit={handleSubmit}>
-          <Title>Iniciar sesión</Title>
-          <br/>
-          <label htmlFor="email">Email</label>
-          <Input
-            id="email"
-            type="email"
-            value={dados.email}
-            onChange={handleChange}
-            name="email"
-          />
-          <label htmlFor="password">Password</label>
-          <Input
-            id="password"
-            type="password"
-            value={dados.password}
-            onChange={handleChange}
-            name="password"
-          />
-          <Button type="submit">Entrar</Button>
-          <SignUpButton>Crear cuenta</SignUpButton>
-        </Form>
-      </Wrapper>
-    </>
-  );
-}
->>>>>>> Stashed changes
   
   export default Login;
