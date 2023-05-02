@@ -100,58 +100,66 @@ const SignUpButton = styled.button`
 `;
 
 function Login() {
-    const router = useRouter()
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [data, setData] = useState(null);
-    const [dados, setDados] = useState({
-      email: "",
-      password: ""
-    });
-  
-    const handleSubmit = async e => {
-      e.preventDefault();
-      const response= await login(dados.email,dados.password);
-      console.log(response);
-      setData(response)
-    };
-  
-    const handleChange = e => {
-      const { name, value } = e.target;
-      setDados(prevState => ({ ...prevState, [name]: value }));
-    };
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [dados, setDados] = useState({
+    email: "",
+    password: ""
+  });
 
-    useEffect(() => {
-        if (data && data["Resultado"] != false) {
-          console.log(data["Resultado"])
-          setIsLoggedIn(true);
-        }
-      }, [data]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await login(dados.email, dados.password);
+    const responseData = await response;
+    console.log("data"+ responseData)
+    if (responseData["Resultado"] === "true") {
 
+      setIsLoggedIn(true);
+      const resultado = responseData.Resultado
+      const userId = responseData.userid;
+      console.log('userid:'+ userId)
+      console.log('Resultadao:'+ resultado)
+      let url= `/main?id=${userId}`
+      router.push(url)
     
-      if (data && isLoggedIn) {
-        console.log(data.userid)
-        let url= `/main?id=${data.userid}`
-        router.push(url)
-        return null;
-      }
-
-      return (
-        <>
-          <GlobalStyle />
-          <Wrapper>
-            <Form onSubmit={handleSubmit}>
-              <Title>Iniciar sesión</Title>
-              <label htmlFor="email">Email</label>
-              <Input id="email" type="email" value={dados.email} onChange={handleChange} name="email" />
-              <label htmlFor="password">Password</label>
-              <Input id="password" type="password" value={dados.password} onChange={handleChange} name="password" />
-              <Button type="submit">Entrar</Button>  
-              <SignUpButton>Crear cuenta</SignUpButton>
-            </Form>
-          </Wrapper>
-        </>
-      );
+    } else {
+      // Si el login falla, haz algo aquí (por ejemplo, muestra un mensaje de error)
     }
+  };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDados((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  return (
+    <>
+      <GlobalStyle />
+      <Wrapper>
+        <Form onSubmit={handleSubmit}>
+          <Title>Iniciar sesión</Title>
+          <label htmlFor="email">Email</label>
+          <Input
+            id="email"
+            type="email"
+            value={dados.email}
+            onChange={handleChange}
+            name="email"
+          />
+          <label htmlFor="password">Password</label>
+          <Input
+            id="password"
+            type="password"
+            value={dados.password}
+            onChange={handleChange}
+            name="password"
+          />
+          <Button type="submit">Entrar</Button>
+          <SignUpButton>Crear cuenta</SignUpButton>
+        </Form>
+      </Wrapper>
+    </>
+  );
+}
   
   export default Login;
