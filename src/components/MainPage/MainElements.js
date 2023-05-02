@@ -66,12 +66,12 @@ export const ChatsTitle = styled.h2`
   left: 55px;
 `;
 
-export const MainTitle = styled.h2`
+export const MainTitle = styled.h1`
   position: absolute;
-  font-size: 24px;
+  font-size: 30px;
   font-weight: bold;
   top: 110px;
-  left: 55px;
+  left: 300px;
 `;
 
 export const ProfileWrapper = styled.div`
@@ -85,6 +85,7 @@ export const ProfileImage = styled.img`
   float: left;
   margin-left: 50px;
   max-width: 75%;
+  max-height: 75%;
   height: auto;
   margin-top: 60px;
 `;
@@ -130,7 +131,7 @@ export const LikeButton = styled.button`
   color: white;
   position: absolute;
   bottom: 20px;
-  right: 650px;
+  right: 600px;
   cursor: pointer;
   outline: none;
   border: none;
@@ -148,7 +149,7 @@ export const DislikeButton = styled.button`
   color: white;
   position: absolute;
   bottom: 20px;
-  right: 410px;
+  right: 320px;
   cursor: pointer;
   outline: none;
   border: none;
@@ -226,5 +227,25 @@ export const ProfileBtn = styled.button`
 		cursor: pointer;
 		color: #000;
 	};
+`
+  export const StartBtn = styled.button`
+	min-width: 170px;
+	font-size: 1rem;
+	padding: 0.8rem;
+	border-radius: 100px;
+	border: none;
+	background: linear-gradient(to right, rgb(253, 41, 123), rgb(255, 101, 91));
+	color: #000;
+	transition: 0.2s ease-out;
+	position: absolute;
+  left: 50%;
+  transform: translate(-50%, 400%);
+	&:hover {
+		background: #FDE74C;
+		transition: 0.2s ease-out;
+		cursor: pointer;
+		color: #000;
+	};
+
 `;
 	

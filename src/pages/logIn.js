@@ -12,7 +12,6 @@ export default function Login() {
     <GlobalStyle />
     <SliderLogin/>
     <Footer/>
-    <Script src="../components/LoginSlider/sliderLogin" strategy="afterInteractive" />
     </div>
   
   </React.StrictMode>

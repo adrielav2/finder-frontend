@@ -9,8 +9,6 @@ export const SliderBody = styled.body`
     overflow: hidden;
     height: 100vh;
   `;
-
-
   export const SliderH1 = styled.h1`
   h1 {
   font-weight: 700;

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from "react-dom";
 import styled, { keyframes, createGlobalStyle } from "styled-components";
 import { GlobalStyle } from "@/styles/globalStyles.js";
-import { login }  from "../apidata/apilogin"
-import { BrowserRouter as Router, Route, Switch, useNavigate } from 'react-router-dom';
+import { login }  from "../../pages/api/apilogin"
 import Link from 'next/link';
 import { useRouter } from 'next/router'
 const jump = keyframes`
@@ -81,6 +79,7 @@ const Title = styled.h2`
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
   text-align: center;
 `;
+
 const SignUpButton = styled.button`
   max-width: 100%;
   padding: 11px 13px;
@@ -101,57 +100,66 @@ const SignUpButton = styled.button`
 `;
 
 function Login() {
-    const router = useRouter()
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [data, setData] = useState(null);
-    const [dados, setDados] = useState({
-      email: "",
-      password: ""
-    });
-  
-    const handleSubmit = e => {
-      e.preventDefault();
-      login(setData,dados.email,dados.password)
-      
-    };
-  
-    const handleChange = e => {
-      const { name, value } = e.target;
-      setDados(prevState => ({ ...prevState, [name]: value }));
-    };
+  const router = useRouter();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [dados, setDados] = useState({
+    email: "",
+    password: ""
+  });
 
-    useEffect(() => {
-        if (data === true) {
-          setIsLoggedIn(true);
-        }
-      }, [data]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await login(dados.email, dados.password);
+    const responseData = await response;
+    console.log("data"+ responseData)
+    if (responseData["Resultado"] === "true") {
+
+      setIsLoggedIn(true);
+      const resultado = responseData.Resultado
+      const userId = responseData.userid;
+      console.log('userid:'+ userId)
+      console.log('Resultadao:'+ resultado)
+      let url= `/main?id=${userId}`
+      router.push(url)
     
-      if (isLoggedIn) {
-        router.push('/')
-        return null;
-      }
-
-
-
-
-  
-      return (
-        <>
-          <GlobalStyle />
-          <Wrapper>
-            <Form onSubmit={handleSubmit}>
-              <Title>Iniciar sesión</Title>
-              <label htmlFor="email">Email</label>
-              <Input id="email" type="email" value={dados.email} onChange={handleChange} name="email" />
-              <label htmlFor="password">Password</label>
-              <Input id="password" type="password" value={dados.password} onChange={handleChange} name="password" />
-              <Button type="submit">Entrar</Button>  
-              <SignUpButton>Crear cuenta</SignUpButton>
-            </Form>
-          </Wrapper>
-        </>
-      );
+    } else {
+      // Si el login falla, haz algo aquí (por ejemplo, muestra un mensaje de error)
     }
+  };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDados((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  return (
+    <>
+      <GlobalStyle />
+      <Wrapper>
+        <Form onSubmit={handleSubmit}>
+          <Title>Iniciar sesión</Title>
+          <label htmlFor="email">Email</label>
+          <Input
+            id="email"
+            type="email"
+            value={dados.email}
+            onChange={handleChange}
+            name="email"
+          />
+          <label htmlFor="password">Password</label>
+          <Input
+            id="password"
+            type="password"
+            value={dados.password}
+            onChange={handleChange}
+            name="password"
+          />
+          <Button type="submit">Entrar</Button>
+          <SignUpButton>Crear cuenta</SignUpButton>
+        </Form>
+      </Wrapper>
+    </>
+  );
+}
   
   export default Login;
