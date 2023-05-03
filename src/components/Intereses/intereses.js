@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { deleteIntereses } from '@/pages/api/apideleteintereses';
 import { addIntereses } from '@/pages/api/apiaddintereses';
+import { updatePerfil } from '@/pages/api/apiupdatebusqueda';
 const interests = [
         {
             "interesusuarioid": 1,
@@ -157,6 +158,7 @@ const interests = [
   // ...rest of the interests
 ];
 
+
 const jump = keyframes`
   from {
     transform: translateY(0);
@@ -165,6 +167,42 @@ const jump = keyframes`
     transform: translateY(-3px);
   }
 `;
+const Wrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+const CheckboxContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const CheckboxInput = styled.input`
+  margin-right: 8px;
+`;
+
+const CheckboxLabel = styled.label`
+  font-size: 16px;
+`;
+
+const Form = styled.form`
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 16px;
+  height: 90vh;
+`;
+
+const FormRight = styled.form`
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90vh;
+`;
+
 const Button = styled.button`
   width: 100%;
   padding: 12px;
@@ -179,73 +217,44 @@ const Button = styled.button`
   margin-top: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-out;
+
   &:hover {
     background-color: rgb(200, 50, 70);
     animation: ${jump} 0.2s ease-out forwards;
   }
 `;
-const CheckboxContainer = styled.div`
-display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(10, auto);
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  flex-wrap: wrap
-`;
-const CheckboxLabel = styled.label`
-  font-size: 18px;
-  color: #333;
-  cursor: pointer;
-`;
-const CheckboxInput = styled.input`
-  appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px;
-  outline: none;
-  cursor: pointer;
-  &:checked {
-    background-color: #1abc9c;
-    border: none;
-  }
-  &:checked + ${CheckboxLabel} {
-    color: #1abc9c;
-  }
-`;
 
-const Wrapper = styled.section`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
+const Button2 = styled.button`
   width: 100%;
-  background-color: #f7f7f7;
-  
-`;
-
-const Form = styled.form`
-display: grid;
-        grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual ancho */
-        grid-gap: 10px; /* Espacio de 10 píxeles entre las celdas */
-  margin: 0 auto;
-  width: 90%;
-  max-width: 800px;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  background-color: #fff;
+  padding: 12px;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #f03d4e;
+  border: none;
   border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  height: 50vh;
-  margin-bottom: 10%;
-`;
+  outline: 0;
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-out;
 
+  &:hover {
+    background-color: rgb(200, 50, 70);
+    animation: ${jump} 0.2s ease-out forwards;
+  }
+`;
+const Title = styled.h2`
+  font-weight: normal;
+  color: #2a2a29;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-align: center;
+`;
 const InterestsCheckbox = () => {
     const [checkedItems, setCheckedItems] = useState([]);
-  
+    const [ageMin, setAgeMin] = useState("");
+    const [ageMax, setAgeMax] = useState("");
+    const [generoid, setGeneroid] = useState("");
     const handleCheckboxChange = (event) => {
       const { name } = event.target;
       setCheckedItems((prevCheckedItems) => {
@@ -256,7 +265,17 @@ const InterestsCheckbox = () => {
         }
       });
     };
-
+    const handleAgeMinChange = (event) => {
+        setAgeMin(event.target.value);
+      };
+    
+      const handleAgeMaxChange = (event) => {
+        setAgeMax(event.target.value);
+      };
+    
+      const handleGenderChange = (event) => {
+        setGender(event.target.value);
+      };
     const handleSubmit = (event) => {
         event.preventDefault();
         const interesesids = interests
@@ -270,27 +289,67 @@ const InterestsCheckbox = () => {
         });
       };
 
+      const handleSubmitPreferencias = (event) => {
+        event.preventDefault();
+        
+        console.log(ageMin)
+        console.log(ageMax)
+        console.log(generoid)
+        updatePerfil(1,ageMin,ageMax,generoid)
 
+
+
+      };
 
   
-    return (
- 
-      <Form onSubmit={handleSubmit}>
-        {interests.map((interest) => (
-          <CheckboxContainer key={interest.interesusuarioid}>
-            <CheckboxInput
-              type="checkbox"
-              name={interest.name}
-              checked={checkedItems.includes(interest.name)}
-              onChange={handleCheckboxChange}
-            />
-            <CheckboxLabel>{interest.name}</CheckboxLabel>
-          </CheckboxContainer>
-        ))}
-        <Button type="submit">Guardar intereses</Button>
-        </Form>
+      return (
+        <Wrapper>
+          <Form onSubmit={handleSubmit}>
+          <Title>Selecciona tus intereses</Title>
+            {interests.map((interest) => (
+              <CheckboxContainer key={interest.interesusuarioid}>
+                <CheckboxInput
+                  type="checkbox"
+                  name={interest.name}
+                  checked={checkedItems.includes(interest.name)}
+                  onChange={handleCheckboxChange}
+                />
+                <CheckboxLabel>{interest.name}</CheckboxLabel>
+              </CheckboxContainer>
+            ))}
+            <Button type="submit">Guardar intereses</Button>
+          </Form>
     
-    );
-  };
-  
-  export default InterestsCheckbox;
+          <FormRight onSubmit={handleSubmitPreferencias}>
+          <Title>Selecciona tus preferencias de búsqueda</Title>
+              <label htmlFor="ageMin">Edad mínima:</label>
+              <input type="number" id="ageMin" name="ageMin" value={ageMin} onChange={handleAgeMinChange} />
+            
+          
+              <label htmlFor="ageMax">Edad máxima:</label>
+              <input type="number" id="ageMax" name="ageMax" value={ageMax} onChange={handleAgeMaxChange} />
+            
+            
+              <label htmlFor="generoid">Género</label>
+              <select
+                name="generoid"
+                id="generoid"
+                value={generoid}
+                onChange={(e) => setGeneroid(parseInt(e.target.value))}
+                required
+              >
+                <option value="0">Selecciona género de intéres</option>
+    
+                <option value="1">Masculino</option>
+    
+                <option value="2">Femenino</option>
+                
+              </select>
+              <Button2 onClick={handleButtonClick}>Guardar preferencias</Button2>
+            
+          </FormRight>
+        </Wrapper>
+      );
+    };
+    
+    export default InterestsCheckbox;
