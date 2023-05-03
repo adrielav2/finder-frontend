@@ -74,6 +74,20 @@ export const MainTitle = styled.h1`
   left: 300px;
 `;
 
+export const MainTitle2 = styled.h1`
+  position: absolute;
+  font-size: 30px;
+  font-weight: bold;
+  top: 90px;
+  left: 250px;
+`;
+
+export const MatchInfo = styled.p`
+  position: absolute;
+  top: 140px;
+  left: 270px;
+`;
+
 export const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -167,13 +181,12 @@ export const Nav = styled.nav`
 	font-weight: 700;
 `;
 
-export const NavLink = styled(Link)`
+export const NavLink = styled.h2`
 	color: #fff;
 	font-size: 2rem;
 	display: flex;
 	align-items: center;
 	text-decoration: none;
-	cursor: pointer;
 	@media screen and (max-width: 400px) {
 		position: relative;
 		top: 10px;
@@ -246,6 +259,25 @@ export const ProfileBtn = styled.button`
 		cursor: pointer;
 		color: #000;
 	};
+`
+export const ContinueBtn = styled.button`
+min-width: 170px;
+font-size: 1rem;
+padding: 0.8rem;
+border-radius: 100px;
+border: none;
+background: linear-gradient(to right, rgb(253, 41, 123), rgb(255, 101, 91));
+color: #000;
+transition: 0.2s ease-out;
+position: absolute;
+left: 50%;
+transform: translate(-50%, 400%);
+&:hover {
+  background: #FDE74C;
+  transition: 0.2s ease-out;
+  cursor: pointer;
+  color: #000;
+};
 
 `;
 

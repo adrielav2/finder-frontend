@@ -8,7 +8,7 @@ function NavBar() {
 		<>
 			<Nav>
 				<Icon></Icon> 
-				<NavLink href='/'>Finder</NavLink>
+				<NavLink>Finder</NavLink>
 				<Link href="/logIn">
 					<LoginBtn>Iniciar Sesión</LoginBtn>
 				</Link>
