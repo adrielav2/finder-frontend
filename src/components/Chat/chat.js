@@ -132,6 +132,7 @@ const Chat = ({ messages }) => {
     const intervalId = setInterval(async () => {
       const result = await getChats(id,otherUser);
       if (result && Array.isArray(result)) {
+        
         setChat(result);
         // Agregar propiedad isCurrentUser a cada mensaje
         setLoadedMessages(result.map(message => ({
