@@ -7,6 +7,8 @@ import { GiNestedHearts, GiCancel } from 'react-icons/gi';
 import Link from 'next/link';
 import axios from 'axios';
 
+
+
 function MainPage() {
 
     const [showDiv, setShowDiv] = useState(false);
@@ -120,12 +122,8 @@ function MainPage() {
               <Nav>
                 <Icon></Icon> 
                 <NavLink>Finder</NavLink>
-                        <Link href="/">
                   <LogoutBtn>Cerrar Sesión</LogoutBtn>
-                </Link>
-                        <Link href="/intereses">
                   <ProfileBtn onClick={handlePerfilClick}> Mi Perfil</ProfileBtn>
-                </Link>
               </Nav>
             </>
           );
