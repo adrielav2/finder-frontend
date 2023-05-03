@@ -7,23 +7,6 @@ import { GiNestedHearts, GiCancel } from 'react-icons/gi';
 import Link from 'next/link';
 import axios from 'axios';
 
-function NavBar() {
-	return (
-		<>
-			<Nav>
-				<Icon></Icon> 
-				<NavLink>Finder</NavLink>
-                <Link href="/">
-					<LogoutBtn>Cerrar Sesión</LogoutBtn>
-				</Link>
-                <Link href="/">
-					<ProfileBtn>Mi Perfil</ProfileBtn>
-				</Link>
-			</Nav>
-		</>
-	);
-}
-
 function MainPage() {
 
     const [showDiv, setShowDiv] = useState(false);
@@ -32,6 +15,7 @@ function MainPage() {
     const [newMatch, setnewMatch] = useState(false);
     const [matches, setMatches] = useState(null);
     const [interest, setInterest] = useState([]);
+    const [interest2, setInterest2] = useState([]);
     const [currentMatch, setCurrentMatch] = useState(null);
     const [otherUser, setotherUser] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -42,53 +26,57 @@ function MainPage() {
 
     const handleStartButtonClick = async () => {
       setStartClicked(true);
-        const result = await getMatchesUsersInfo(id);
-        if (result.length !== 0){
-          setCurrentIndex(currentIndex + 1);
-          setShowDiv(!showDiv);
-          console.log(result);
-          setMatches(result);
-          setCurrentMatch(result[currentIndex]);
-          setotherUser(result[currentIndex]?.userid)
-          const intereses_en_comuna = result[currentIndex]?.intereses_en_comun.split(',')
-          setInterest(intereses_en_comuna)
-        }
-        else{
-          setnoMatches(true)
-        }
-      };
+      const result = await getMatchesUsersInfo(id);
+      if (result.length !== 0){
+        setCurrentIndex(currentIndex + 1);
+        setShowDiv(!showDiv);
+        setMatches(result);
+        setCurrentMatch(result[currentIndex]);
+        setotherUser(result[currentIndex]?.userid)
+        setInterest2(result.map((item) => {
+          return item?.intereses_en_comun;
+        }));
+        setInterest(result[currentIndex]?.intereses_en_comun?.split(','))
+        
+      }
+      else{
+        setnoMatches(true)
+      }
+    };
 
       const handleLike = async () => {
-        if (currentIndex <= matches.length) {
-          setotherUser(currentMatch.userid)
-          await postUserAction(id,otherUser,1)
-          const result = await getChatUsersInfo(id);
-          if (result.length > chat.length) {
-            setChat(result)
-            setnewMatch(true)
-            setShowDiv(false);
-          }
-          else if (currentIndex === matches.length) {
-            setnoMatches(true)
-            setShowDiv(false)
-          }
-          else{
-            setCurrentIndex(currentIndex + 1);
-            setCurrentMatch(matches[currentIndex + 1]);
-          }
+        if (currentIndex < matches.length) {
+        setotherUser(currentMatch.userid)
+        await postUserAction(id,otherUser,1)
+        const result = await getChatUsersInfo(id);
+        if (result.length > chat.length) {
+          setChat(result)
+          setnewMatch(true)
+          setShowDiv(false);
         }
-      };
+        else{
+          setCurrentIndex(currentIndex + 1);
+          setCurrentMatch(matches[currentIndex + 1]);
+          setInterest(interest2[currentIndex].split(','))
+        }
+      }
+      else if (currentIndex === matches.length){
+        setnoMatches(true)
+        setShowDiv(false)
+      }
+    };
     
       const handleDislike = async () => {
-        if (currentIndex <= matches.length) {
+        if (currentIndex < matches.length) {
           setCurrentIndex(currentIndex + 1); 
           setCurrentMatch(matches[currentIndex + 1]);
+          setInterest(interest2[currentIndex].split(','))
           setotherUser(currentMatch.userid)
           await postUserAction(id,otherUser,2)
-          if (currentIndex === matches.length) {
-            setnoMatches(true)
-            setShowDiv(false)
-          }
+        }
+        else if (currentIndex === matches.length){
+          setnoMatches(true)
+          setShowDiv(false)
         }
       };
 
@@ -105,6 +93,16 @@ function MainPage() {
         }
       };
 
+      const handleChatClick = async (key) => {
+        let url= `/chat?id=${key}`
+        router.push(url)
+      };
+
+      const handlePerfilClick = async () => {
+        let url= `/intereses?id=${id}`
+        router.push(url)
+      };
+
       useEffect(() => {
         if(id !== undefined){
             async function fetchData() {
@@ -114,6 +112,24 @@ function MainPage() {
             fetchData();
         }
         }, [id]);
+
+        function NavBar() {
+
+          return (
+            <>
+              <Nav>
+                <Icon></Icon> 
+                <NavLink>Finder</NavLink>
+                        <Link href="/">
+                  <LogoutBtn>Cerrar Sesión</LogoutBtn>
+                </Link>
+                        <Link href="/intereses">
+                  <ProfileBtn onClick={handlePerfilClick}> Mi Perfil</ProfileBtn>
+                </Link>
+              </Nav>
+            </>
+          );
+        }
     
         return (
             <MainBody>
@@ -165,8 +181,9 @@ function MainPage() {
               ) : null}
               <ChatsTitle>Chats</ChatsTitle>
               {chat ? (
-                <ChatCard>
-                  {chat.map(({ nombre, apellido1 }) => (
+                <>
+                {chat.map(({ userid, nombre, apellido1 }) => (
+                <ChatCard key={userid} onClick={() => handleChatClick(key)}>
                     <Chat>
                       {" "}
                       <ChatImage
@@ -175,9 +192,10 @@ function MainPage() {
                       />
                       {`${nombre} ${apellido1}`}
                     </Chat>
-                  ))}
                 </ChatCard>
-              ) : (
+                ))}
+              </>
+              ) : ( 
                 <p>Loading data...</p>
               )}
             </MainBody>

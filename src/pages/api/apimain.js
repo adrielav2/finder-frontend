@@ -16,7 +16,6 @@ export async function getMatchesUsersInfo(id) {
     try {
       const response = await axios.get(`http://localhost:3001/matches?userid=${id}`);
       const data = response.data;
-      console.log(data);
       return data;
     } catch (error) {
       console.log('Error al recuperar los matches:', error);
