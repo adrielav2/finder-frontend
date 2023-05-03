@@ -3,6 +3,9 @@ import styled, { keyframes } from 'styled-components';
 import { deleteIntereses } from '@/pages/api/apideleteintereses';
 import { addIntereses } from '@/pages/api/apiaddintereses';
 import { updatePerfil } from '@/pages/api/apiupdatebusqueda';
+import { useRouter } from 'next/router'
+
+
 const interests = [
         {
             "interesusuarioid": 1,
@@ -255,6 +258,11 @@ const InterestsCheckbox = () => {
     const [ageMin, setAgeMin] = useState("");
     const [ageMax, setAgeMax] = useState("");
     const [generoid, setGeneroid] = useState("");
+    const router = useRouter();
+    const { id } = router.query;
+
+
+
     const handleCheckboxChange = (event) => {
       const { name } = event.target;
       setCheckedItems((prevCheckedItems) => {
@@ -285,7 +293,7 @@ const InterestsCheckbox = () => {
         deleteIntereses(1);
         console.log("entre aqui")
         interesesids.forEach((interesid) => {
-          addIntereses(1, interesid);
+          addIntereses(id, interesid);
         });
       };
 
@@ -295,7 +303,7 @@ const InterestsCheckbox = () => {
         console.log(ageMin)
         console.log(ageMax)
         console.log(generoid)
-        updatePerfil(1,ageMin,ageMax,generoid)
+        updatePerfil(id,ageMin,ageMax,generoid)
 
 
 
@@ -345,7 +353,7 @@ const InterestsCheckbox = () => {
                 <option value="2">Femenino</option>
                 
               </select>
-              <Button2 onClick={handleButtonClick}>Guardar preferencias</Button2>
+              <Button2 type="submit">Guardar preferencias</Button2>
             
           </FormRight>
         </Wrapper>

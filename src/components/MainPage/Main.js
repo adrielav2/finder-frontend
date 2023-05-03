@@ -7,22 +7,7 @@ import { GiNestedHearts, GiCancel } from 'react-icons/gi';
 import Link from 'next/link';
 import axios from 'axios';
 
-function NavBar() {
-	return (
-		<>
-			<Nav>
-				<Icon></Icon> 
-				<NavLink>Finder</NavLink>
-                <Link href="/">
-					<LogoutBtn>Cerrar Sesión</LogoutBtn>
-				</Link>
-                <Link href="/">
-					<ProfileBtn>Mi Perfil</ProfileBtn>
-				</Link>
-			</Nav>
-		</>
-	);
-}
+
 
 function MainPage() {
 
@@ -105,6 +90,11 @@ function MainPage() {
         }
       };
 
+      const handleMiPerfil = async () => {
+        let url= `/intereses?id=${id}`
+        router.push(url)
+      };
+
       useEffect(() => {
         if(id !== undefined){
             async function fetchData() {
@@ -115,6 +105,35 @@ function MainPage() {
         }
         }, [id]);
     
+
+        function NavBar() {
+          return (
+            <>
+              <Nav>
+                <Icon></Icon> 
+                <NavLink>Finder</NavLink>
+                        <Link href="/">
+                  <LogoutBtn>Cerrar Sesión</LogoutBtn>
+                </Link>
+                        <Link href="/">
+                  <ProfileBtn onClick={handleMiPerfil}>Mi Perfil</ProfileBtn>
+                </Link>
+              </Nav>
+            </>
+          );
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         return (
             <MainBody>
               <NavBar />
