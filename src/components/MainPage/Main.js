@@ -95,8 +95,9 @@ function MainPage() {
         }
       };
 
-      const handleChatClick = async (key) => {
-        let url= ` /chat?id=${id}?otherid=${key}`
+      const handleChatClick = async (userid) => {
+        console.log("key:"+userid)
+        let url= ` /chat?id=${id}&otherid=${userid}`
         router.push(url)
       };
 
@@ -181,7 +182,7 @@ function MainPage() {
               {chat ? (
                 <>
                 {chat.map(({ userid, nombre, apellido1 }) => (
-                <ChatCard key={userid} onClick={() => handleChatClick(key)}>
+                <ChatCard userid={userid} onClick={() => handleChatClick(userid)}>
                     <Chat>
                       {" "}
                       <ChatImage

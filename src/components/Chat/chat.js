@@ -111,31 +111,36 @@ const Chat = ({ messages }) => {
   const [chat, setChat] = useState(null); 
   const router = useRouter();
   const { id, otherid } = router.query;
+  console.log(router.query)
   const currentUser = id; // ID del usuario actual
+  const otherUser = otherid
   const [message, setMessage] = useState(''); // variable para almacenar el mensaje del chat
-  const sender = otherid;
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
   };
 
   const handleButtonClick = (event) => {
+    console.log("id "+currentUser)
+    console.log("otherid "+ otherUser)
     console.log(message)
-    enviarMensaje(currentUser,sender,message)
+    enviarMensaje(currentUser,otherUser,message)
 
   }
  
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
-      const result = await getChats(1,2);
-      setChat(result);
-      // Agregar propiedad isCurrentUser a cada mensaje
-      setLoadedMessages(result.map(message => ({
-        ...message,
-        isCurrentUser: message.enviador === currentUser
-      })));
+      const result = await getChats(id,otherUser);
+      if (result && Array.isArray(result)) {
+        setChat(result);
+        // Agregar propiedad isCurrentUser a cada mensaje
+        setLoadedMessages(result.map(message => ({
+          ...message,
+          isCurrentUser: message.enviador === currentUser
+        })));
+      }
     }, 2000);
-
+  
     return () => clearInterval(intervalId);
   }, []);
 
