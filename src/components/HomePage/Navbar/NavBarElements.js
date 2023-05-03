@@ -10,13 +10,12 @@ export const Nav = styled.nav`
 	font-weight: 700;
 `;
 
-export const NavLink = styled(Link)`
+export const NavLink = styled.h2`
 	color: #fff;
 	font-size: 2rem;
 	display: flex;
 	align-items: center;
 	text-decoration: none;
-	cursor: pointer;
 	@media screen and (max-width: 400px) {
 		position: relative;
 		top: 10px;

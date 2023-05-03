@@ -23,5 +23,15 @@ export async function getMatchesUsersInfo(id) {
       return null;
     }
   }
+
+  export async function postUserAction(id, otherid, actiontype) {
+    try {
+      await axios.post(`http://localhost:3001/insertAccion?userid=${id}&otrousuario=${otherid}&tipoaccionid=${actiontype}`);
+      return;
+    } catch (error) {
+      console.log('Error al enviar la acción:', error);
+      return null;
+    }
+  }
   
 
