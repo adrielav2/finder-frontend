@@ -19,6 +19,7 @@ const Wrapper = styled.section`
   align-items: center;
   height: 100%;
   width: 100%;
+  height: 700px;
   background-color: #f7f7f7;
 `;
 
@@ -80,22 +81,23 @@ const Title = styled.h2`
   text-align: center;
 `;
 
-const SignUpButton = styled.button`
-  max-width: 100%;
-  padding: 11px 13px;
+const Button2 = styled.button`
+  width: 100%;
+  padding: 12px;
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
-  background: #2a2a29;
+  background-color: #000000;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   outline: 0;
   cursor: pointer;
-  margin-top: 0.6rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-out;
-  :hover {
-    background: #444444;
+
+  &:hover {
+    animation: ${jump} 0.2s ease-out forwards;
   }
 `;
 
@@ -155,7 +157,9 @@ function Login() {
             name="password"
           />
           <Button type="submit">Entrar</Button>
-          <SignUpButton>Crear cuenta</SignUpButton>
+          <Link href="/register">
+          <Button2>Crear cuenta</Button2>
+          </Link>
         </Form>
       </Wrapper>
     </>

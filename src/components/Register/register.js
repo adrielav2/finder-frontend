@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { register } from '../apidata/apiregister';
+import { register } from "../../pages/api/apiregister";
 import { useRouter } from 'next/router'
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Link from 'next/link';
 
 const jump = keyframes`
   from {
@@ -17,11 +18,13 @@ const jump = keyframes`
 
 const Wrapper = styled.section`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 950px;
   width: 100%;
   background-color: #f7f7f7;
+  overflow: auto;
 `;
 
 const Form = styled.form`
@@ -34,8 +37,7 @@ const Form = styled.form`
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  height: 70vh;
-  margin-bottom: 10%;
+  height: 100vh;
 `;
 
 
@@ -73,6 +75,26 @@ const Button = styled.button`
 
   &:hover {
     background-color: rgb(200, 50, 70);
+    animation: ${jump} 0.2s ease-out forwards;
+  }
+`;
+
+const Button2 = styled.button`
+  width: 100%;
+  padding: 12px;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #000000;
+  border: none;
+  border-radius: 5px;
+  outline: 0;
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-out;
+
+  &:hover {
     animation: ${jump} 0.2s ease-out forwards;
   }
 `;
@@ -288,6 +310,9 @@ function RegisterPage() {
   <DateIcon className="fa fa-calendar" />
 </DatePickerWrapper>
         <Button type="submit">Registrarse</Button>
+        <Link href="/logIn">
+        <Button2> Iniciar Sesión</Button2>
+        </Link> 
       </Form>
     </Wrapper>
   );
