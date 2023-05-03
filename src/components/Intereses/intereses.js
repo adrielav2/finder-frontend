@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { deleteIntereses } from '@/pages/api/apideleteintereses';
+import { addIntereses } from '@/pages/api/apiaddintereses';
 const interests = [
         {
             "interesusuarioid": 1,
@@ -177,13 +179,15 @@ const Button = styled.button`
   margin-top: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-out;
-
   &:hover {
     background-color: rgb(200, 50, 70);
     animation: ${jump} 0.2s ease-out forwards;
   }
 `;
 const CheckboxContainer = styled.div`
+display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(10, auto);
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -203,12 +207,10 @@ const CheckboxInput = styled.input`
   margin-right: 10px;
   outline: none;
   cursor: pointer;
-
   &:checked {
     background-color: #1abc9c;
     border: none;
   }
-
   &:checked + ${CheckboxLabel} {
     color: #1abc9c;
   }
@@ -221,9 +223,13 @@ const Wrapper = styled.section`
   height: 100%;
   width: 100%;
   background-color: #f7f7f7;
+  
 `;
 
 const Form = styled.form`
+display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual ancho */
+        grid-gap: 10px; /* Espacio de 10 píxeles entre las celdas */
   margin: 0 auto;
   width: 90%;
   max-width: 800px;
@@ -233,10 +239,9 @@ const Form = styled.form`
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  height: 70vh;
+  height: 50vh;
   margin-bottom: 10%;
 `;
-
 
 const InterestsCheckbox = () => {
     const [checkedItems, setCheckedItems] = useState([]);
@@ -254,15 +259,22 @@ const InterestsCheckbox = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const ids = interests
+        const interesesids = interests
           .filter((interest) => checkedItems.includes(interest.name))
           .map((interest) => interest.interesusuarioid);
-        console.log(ids); // Aquí se guardan los IDs
+        console.log(interesesids); // Aquí se guardan los IDs
+        deleteIntereses(1);
+        console.log("entre aqui")
+        interesesids.forEach((interesid) => {
+          addIntereses(1, interesid);
+        });
       };
+
+
 
   
     return (
-      <Wrapper>
+ 
       <Form onSubmit={handleSubmit}>
         {interests.map((interest) => (
           <CheckboxContainer key={interest.interesusuarioid}>
@@ -278,7 +290,6 @@ const InterestsCheckbox = () => {
         <Button type="submit">Guardar intereses</Button>
         </Form>
     
-        </Wrapper>
     );
   };
   

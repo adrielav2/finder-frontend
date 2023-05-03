@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MainBody, MainCard, MainTitle, ChatCard, ProfileImage, ProfileName, ProfileWrapper, AboutMeContainer, AboutMeTitle, List, LikeButton, DislikeButton, Chat, ChatImage, ChatsTitle, LogoutBtn, ProfileBtn, StartBtn} from './MainElements';
+import { MainBody, MainCard, MainTitle, ChatCard, ProfileImage,InteresBtn, ProfileName, ProfileWrapper, AboutMeContainer, AboutMeTitle, List, LikeButton, DislikeButton, Chat, ChatImage, ChatsTitle, LogoutBtn, ProfileBtn, StartBtn} from './MainElements';
 import { Nav, NavLink, Icon } from './MainElements.js';
 import { useRouter } from 'next/router'
 import { getChatUsersInfo, getMatchesUsersInfo }  from "../../pages/api/apimain"
@@ -16,14 +16,13 @@ function NavBar() {
                 <Link href="/">
 					<LogoutBtn>Cerrar Sesión</LogoutBtn>
 				</Link>
-                <Link href="/">
+                <Link href='/'>
 					<ProfileBtn>Mi Perfil</ProfileBtn>
 				</Link>
 			</Nav>
 		</>
 	);
 }
-
 function MainPage() {
 
     const [showDiv, setShowDiv] = useState(false);
@@ -33,7 +32,6 @@ function MainPage() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const router = useRouter();
     const { id } = router.query;
-
     const [chat, setChat] = useState(null);
 
     const handleStartButtonClick = async () => {
