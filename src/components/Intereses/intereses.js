@@ -4,6 +4,7 @@ import { deleteIntereses } from '@/pages/api/apideleteintereses';
 import { addIntereses } from '@/pages/api/apiaddintereses';
 import { updatePerfil } from '@/pages/api/apiupdatebusqueda';
 import { useRouter } from 'next/router'
+import Link from 'next/link';
 
 
 const interests = [
@@ -174,11 +175,18 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  height: 850px;
+  margin-top: 50px;
+  margin-left: 50px;
+  margin-right: 50px;
 `;
 
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-left: 50px;
+  margin-right: 50px;
+  
 `;
 
 const CheckboxInput = styled.input`
@@ -196,6 +204,7 @@ const Form = styled.form`
   justify-content: space-between;
   margin-right: 16px;
   height: 90vh;
+  margin-right: 50px;
 `;
 
 const FormRight = styled.form`
@@ -229,6 +238,7 @@ const Button = styled.button`
 
 const Button2 = styled.button`
   width: 100%;
+  down: 10px;
   padding: 12px;
   color: #fff;
   font-weight: 600;
@@ -241,9 +251,35 @@ const Button2 = styled.button`
   margin-top: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-out;
+  position: relative;
+  top: 22px;
 
   &:hover {
     background-color: rgb(200, 50, 70);
+    animation: ${jump} 0.2s ease-out forwards;
+  }
+`;
+
+const Button3 = styled.button`
+  width: 100%;
+  max-height: 50px;
+  max-width: 300px;
+  padding: 12px;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #000000;
+  border: none;
+  border-radius: 5px;
+  outline: 0;
+  cursor: pointer;
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-out;
+  position: relative;
+
+  &:hover {
+    background-color: #000000;
     animation: ${jump} 0.2s ease-out forwards;
   }
 `;
@@ -304,9 +340,11 @@ const InterestsCheckbox = () => {
         console.log(ageMax)
         console.log(generoid)
         updatePerfil(id,ageMin,ageMax,generoid)
+      };
 
-
-
+      const handleVolver = async () => {
+        const url=`/main?id=${id}`
+        router.push(url)
       };
 
   
@@ -354,8 +392,8 @@ const InterestsCheckbox = () => {
                 
               </select>
               <Button2 type="submit">Guardar preferencias</Button2>
-            
           </FormRight>
+          <Button3 onClick={handleVolver}>Volver</Button3>
         </Wrapper>
       );
     };
