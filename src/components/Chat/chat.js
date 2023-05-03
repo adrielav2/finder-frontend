@@ -24,19 +24,38 @@ const ChatContainer = styled.div`
   overflow: hidden;
   height: 70vh;
 `;
-
 const ChatHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #f1f1f1;
   padding: 10px;
+  border-bottom: 1px solid #ccc;
 `;
 
 const ChatBody = styled.div`
   padding: 10px;
+  overflow-y: scroll;
+  height: calc(100% - 50px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: 10px;
+  display: flex; /*agregado*/
 `;
+const ChatInput = styled.input`
+  width: calc(100% - 90px);
+  padding: 10px;
+  font-size: 16px;
+  box-sizing: border-box;
+  border-style: solid;
 
+`;
+const ChatInputContainer = styled.div` /*agregado*/
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 const MessageContainer = styled.div`
   display: flex;
   align-items: flex-start;
@@ -45,8 +64,9 @@ const MessageContainer = styled.div`
 
 const MessageAvatar = styled(FaUser)`
   font-size: 24px;
-  margin-right: 10px;
+  margin: ${({ isCurrentUser }) => isCurrentUser ? 'left' : 'right'};
 `;
+
 
 const MessageContent = styled.div`
   display: flex;
@@ -57,22 +77,13 @@ const MessageText = styled.p`
   margin: 0;
   padding: 10px;
   border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   background-color: ${({ isCurrentUser }) => isCurrentUser ? '#fff' : '#f03d4e'};
 `;
 
-const ChatInput = styled.input`
-  width: 100%;
-  border: none;
-  border-top: 1px solid #ccc;
-  padding: 10px;
-  font-size: 16px;
-
-  left: 0;
-  right: 0;
-`;
 const Button = styled.button`
-  width: 100%;
-  padding: 12px;
+  width: 80px;
+  padding: 15px;
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
@@ -84,12 +95,16 @@ const Button = styled.button`
   margin-top: 1rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-out;
+  margin-top: -5px;
 
   &:hover {
     background-color: rgb(200, 50, 70);
     animation: ${jump} 0.2s ease-out forwards;
   }
 `;
+
+
+
 const Chat = ({ messages }) => {
   const [loadedMessages, setLoadedMessages] = useState([]);
   const [chat, setChat] = useState(null); 
@@ -129,14 +144,16 @@ const Chat = ({ messages }) => {
       <ChatBody> 
         { loadedMessages && loadedMessages.map((message, index) => (
           <MessageContainer key={index}>
-            <MessageAvatar />
+            <MessageAvatar isCurrentUser={message.isCurrentUser}/>
             <MessageContent>
               <MessageText isCurrentUser={message.isCurrentUser}>{message.caption}</MessageText>
             </MessageContent>
           </MessageContainer>
         ))}
-        <ChatInput type="text" placeholder="Type your message" value={message} onChange={handleMessageChange} />
+        <ChatInputContainer>
+        <ChatInput type="text" placeholder="" value={message} onChange={handleMessageChange} />
         <Button onClick={handleButtonClick}>Enviar</Button>
+        </ChatInputContainer>
       </ChatBody>
     </ChatContainer>
   );
