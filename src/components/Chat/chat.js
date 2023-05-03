@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { FaUser } from 'react-icons/fa';
 import { getChats } from '@/pages/api/apigetchats';
 import { enviarMensaje } from '@/pages/api/apienviarmensaje';
+import { useRouter } from 'next/router'
 
 
 const jump = keyframes`
@@ -108,9 +109,11 @@ const Button = styled.button`
 const Chat = ({ messages }) => {
   const [loadedMessages, setLoadedMessages] = useState([]);
   const [chat, setChat] = useState(null); 
-  const currentUser = 1; // ID del usuario actual
+  const router = useRouter();
+  const { id, otherid } = router.query;
+  const currentUser = id; // ID del usuario actual
   const [message, setMessage] = useState(''); // variable para almacenar el mensaje del chat
-  const sender = 2;
+  const sender = otherid;
   const handleMessageChange = (event) => {
     setMessage(event.target.value);
   };

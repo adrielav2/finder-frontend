@@ -96,7 +96,7 @@ function MainPage() {
       };
 
       const handleChatClick = async (key) => {
-        let url= `/chat?id=${key}`
+        let url= ` /chat?id=${id}?otherid=${key}`
         router.push(url)
       };
 
