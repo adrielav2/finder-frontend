@@ -123,7 +123,9 @@ function MainPage() {
               <Nav>
                 <Icon></Icon> 
                 <NavLink>Finder</NavLink>
+                  <Link href="/">
                   <LogoutBtn>Cerrar Sesión</LogoutBtn>
+                  </Link>
                   <ProfileBtn onClick={handlePerfilClick}> Mi Perfil</ProfileBtn>
               </Nav>
             </>

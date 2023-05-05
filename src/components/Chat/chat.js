@@ -5,6 +5,8 @@ import { FaUser } from 'react-icons/fa';
 import { getChats } from '@/pages/api/apigetchats';
 import { enviarMensaje } from '@/pages/api/apienviarmensaje';
 import { useRouter } from 'next/router'
+import { FaHandsHelping } from 'react-icons/fa';
+import Link from 'next/link';
 
 
 const jump = keyframes`
@@ -24,7 +26,10 @@ const ChatContainer = styled.div`
   border-radius: 5px;
   overflow: hidden;
   height: 70vh;
+  margin-top: 50px;
+  margin-bottom: 200px;
 `;
+
 const ChatHeader = styled.div`
   display: flex;
   align-items: center;
@@ -44,6 +49,7 @@ const ChatBody = styled.div`
   margin-top: 10px;
   display: flex; /*agregado*/
 `;
+
 const ChatInput = styled.input`
   width: calc(100% - 90px);
   padding: 10px;
@@ -104,7 +110,80 @@ const Button = styled.button`
   }
 `;
 
+export const Nav = styled.nav`
+	background: linear-gradient(rgb(253, 41, 123), rgb(255, 101, 91));
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	font-weight: 700;
+`;
 
+export const NavLink = styled.h2`
+	color: #000000;
+	font-size: 2rem;
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	@media screen and (max-width: 400px) {
+		position: relative;
+		top: 10px;
+		left: 25px;
+	}
+`;
+
+export const Icon = styled(FaHandsHelping)`
+	font-size: 2rem;
+	position: absolute;
+	color: #000000;
+	top: 3%;
+	left: 40px;
+`;
+
+export const LogoutBtn = styled.button`
+	min-width: 170px;
+	font-size: 1rem;
+	padding: 0.8rem;
+	border-radius: 100px;
+	border: none;
+	background: ##FFFFFF;
+	color: #000;
+	transition: 0.2s ease-out;
+	position: absolute;
+	right: 40px;
+	top: 3%;
+	&:hover {
+		background: #FDE74C;
+		transition: 0.2s ease-out;
+		cursor: pointer;
+		color: #000;
+	};
+`;
+
+const Button3 = styled.button`
+  position: absolute;
+  width: 100%;
+  max-height: 50px;
+  max-width: 300px;
+  padding: 12px;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: #000000;
+  border: none;
+  border-radius: 5px;
+  outline: 0;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-out;
+  top: 700px;
+  right: 630px;
+
+  &:hover {
+    background-color: #000000;
+    animation: ${jump} 0.2s ease-out forwards;
+  }
+`;
 
 const Chat = ({ messages }) => {
   const [loadedMessages, setLoadedMessages] = useState([]);
@@ -124,9 +203,13 @@ const Chat = ({ messages }) => {
     console.log("otherid "+ otherUser)
     console.log(message)
     enviarMensaje(currentUser,otherUser,message)
-
   }
- 
+
+  const handleVolver = async () => {
+    const url=`/main?id=${id}`
+    router.push(url)
+  };
+
 
   useEffect(() => {
     const intervalId = setInterval(async () => {
@@ -145,7 +228,24 @@ const Chat = ({ messages }) => {
     return () => clearInterval(intervalId);
   }, []);
 
+  function NavBar() {
+
+    return (
+      <>
+        <Nav>
+          <Icon></Icon> 
+          <NavLink>Finder</NavLink>
+            <Link href="/">
+            <LogoutBtn>Cerrar Sesión</LogoutBtn>
+            </Link>
+        </Nav>
+      </>
+    );
+  }
+
   return (
+    <div>
+    <NavBar />
     <ChatContainer>
       <ChatHeader>
         <h3>Chat</h3>
@@ -165,6 +265,8 @@ const Chat = ({ messages }) => {
         </ChatInputContainer>
       </ChatBody>
     </ChatContainer>
+    <Button3 onClick={handleVolver}>Volver</Button3>
+    </div>
   );
 };
 

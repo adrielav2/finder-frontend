@@ -58,6 +58,29 @@ const Input = styled.input`
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), 0 1px 5px rgba(0, 0, 0, 0.1);
   }
 `;
+
+const Input2 = styled.input`
+  display: block;
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  background-color: #f7f7f7;
+  color: #666;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  outline: 0;
+  border: none;
+  font-size: 16px;
+  transition: all 0.3s ease-out;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(0, 0, 0, 0.1);
+  white-space: pre-wrap;
+
+  &:focus {
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.15), 0 1px 5px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+
 const Button = styled.button`
   width: 100%;
   padding: 12px;
@@ -204,10 +227,9 @@ function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
         const fechaFormateada = new Date(startDate).toISOString();
         const response = await register(nombre, apellido1, fechaFormateada, contrasena, email, resumen,generoid);
-      const resultado = response.Resultado;
+        const resultado = response.Resultado;
       if (resultado === 'True') {
         setPopupMessage('Registro exitoso');
         setShowPopup(true);
