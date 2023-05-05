@@ -140,7 +140,7 @@ function MainPage() {
                 {startClicked ? null : <MainTitle>¡Encuentra tu gente!</MainTitle>}
                 {noMatches ? <MainTitle2>No hay más coincidencias :/</MainTitle2> : null}
                 {newMatch ? <MainTitle2>¡Tienes una nueva coincidencia!</MainTitle2>  : null}
-                {newMatch ? <MatchInfo>Presiona en su chat para enviar un nuevo mensaje :D</MatchInfo>  : null}
+                {newMatch ? <MatchInfo>Presiona en su chat para enviar un nuevo mensaje</MatchInfo>  : null}
                 {startClicked ? null : (
                   <StartBtn onClick={handleStartButtonClick}>Empezar ahora</StartBtn>
                 )}
